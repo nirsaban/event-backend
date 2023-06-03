@@ -33,12 +33,12 @@ export class FBAuthMiddleware {
       }
 
       const userEntity: UserDto = await this.usersService.getUserByFBId(this.fbUser.uid);
-
+      console.log(userEntity);
       if (isNullOrUndefined(userEntity)) {
         this.userDto = new UserDto(UserDto.FBUserTLocalUser(this.fbUser));
       } else {
         this.userDto = new UserDto(userEntity);
-        console.log(this.userDto);
+       
       }
 
       await this.userDto.validate(this.userDto);
@@ -46,10 +46,9 @@ export class FBAuthMiddleware {
       req.user = this.userDto;
 
       req.userExist = !isNullOrUndefined(userEntity);
-
+      console.log(req.userExist);
       return next();
     } catch (error) {
-      console.log(error);
       if (error instanceof BadRequest) {
         return res.status(error.getCode()).send({ errorMessage: error.message });
       }

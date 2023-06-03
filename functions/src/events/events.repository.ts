@@ -36,7 +36,7 @@ export class EventsRepository extends BaseRepository<EventsEntity> {
     for (let subCollection of subCollections) {
       let subCollectionDocs = await subCollection.get();
       for (let doc of subCollectionDocs.docs) {
-        eventData[subCollection.id] = [...(eventData[subCollection.id] || []), doc.data()];
+        eventData[subCollection.id] = doc.data();
       }
     }
 

@@ -60,7 +60,8 @@ export class UsersRepository extends BaseRepository<UsersEntity> {
           updatesNested[update] = entity[update];
         }
       }
-
+      
+      console.log(updatesNested)
       const result = await this.db.doc(id).update(updatesNested);
 
       return entity;

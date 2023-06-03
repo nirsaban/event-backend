@@ -45,6 +45,7 @@ export class UserDto extends BaseDto<UserDto, UsersEntity> {
     this.lastName = user.lastName;
     this.events = user.events;
     this.flow = new UserFlow(user.flow);
+
   }
 
   static FBUserTLocalUser(fbUser: DecodedIdToken): UserDto {

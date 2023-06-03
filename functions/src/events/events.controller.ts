@@ -5,13 +5,17 @@ import { UserDto } from "../users/users.dto";
 import { EventsService } from "./events.service";
 import { EventsDto } from "./events.dto";
 import path from "path";
+import { UsersService } from "../users/users.service";
 export interface MulterRequest extends RequestUser {
   files?: any;
 }
 export class EventsController {
   private eventsService: EventsService;
+  private userService : UsersService
   constructor() {
+    this.userService = new UsersService()
     this.eventsService = new EventsService();
+    
   }
 
   public async create(
@@ -40,6 +44,19 @@ export class EventsController {
         file
       );
 
+      if(eventCreated){
+
+        const userDto   = {
+          ...req.user,
+          flow : {
+            ...req.user.flow,
+            createEvent : true,
+            planners : true,
+            confirmDetails : true
+          }
+        }
+        this.userService.updateUser(new UserDto({...userDto} as UserDto))
+      }
       res.send(eventCreated);
     } catch (error) {
       next(error);

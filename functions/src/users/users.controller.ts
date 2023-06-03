@@ -22,6 +22,9 @@ export class UsersController {
 
       user.flow.register = true;
 
+      if(userExist){
+        user.flow.confirmDetails = true;
+      }
       let userLogged: UserDto = await this.usersService.createOrUpdateUser(user, userExist);
 
       res.send(userLogged);

@@ -18,7 +18,7 @@ export class EventsSettingsRepository extends BaseRepository<EventsSettingsEntit
         .doc(userId)
         .collection("events")
         .doc(eventId)
-        .collection("eventsSettings")
+        .collection("settings")
         .doc(eventEntity.id)
         .set({ ...eventEntity }, { merge: true });
 
@@ -28,24 +28,31 @@ export class EventsSettingsRepository extends BaseRepository<EventsSettingsEntit
     }
   }
 
-  public async get(userId: string, eventId: string, id: string): Promise<EventsSettingsEntity> {
+  public async get(
+    userId: string,
+    eventId: string,
+    id: string
+  ): Promise<EventsSettingsEntity> {
     const eventRef = await this.db
       .doc(userId)
       .collection("events")
       .doc(eventId)
-      .collection("eventsSettings")
+      .collection("settings")
       .doc(id)
       .get();
 
     return eventRef.data() as EventsSettingsEntity;
   }
 
-  public async getAll(userId: string, eventId: string): Promise<EventsSettingsEntity[]> {
+  public async getAll(
+    userId: string,
+    eventId: string
+  ): Promise<EventsSettingsEntity[]> {
     const eventRef = await this.db
       .doc(userId)
       .collection("events")
       .doc(eventId)
-      .collection("eventsSettings")
+      .collection("settings")
       .get();
 
     const eventList: EventsSettingsEntity[] = [];
@@ -56,12 +63,16 @@ export class EventsSettingsRepository extends BaseRepository<EventsSettingsEntit
 
     return eventList;
   }
-  public async delete(userId: string, eventId: string, id: string): Promise<void> {
+  public async delete(
+    userId: string,
+    eventId: string,
+    id: string
+  ): Promise<void> {
     await this.db
       .doc(userId)
       .collection("events")
       .doc(eventId)
-      .collection("eventsSettings")
+      .collection("settings")
       .doc(eventId)
       .delete();
   }

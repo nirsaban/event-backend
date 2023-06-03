@@ -4,11 +4,14 @@ import { RequestUser } from "../common/interfaces/requestUser.interface";
 import { UserDto } from "../users/users.dto";
 import { EventsSettingsService } from "./eventsSettings.service";
 import { EventsSettingsDto } from "./eventsSettings.dto";
+import { UsersService } from "../users/users.service";
 
 export class EventsSettingsController {
   private eventsService: EventsSettingsService;
+  private userService : UsersService
   constructor() {
     this.eventsService = new EventsSettingsService();
+    this.userService = new UsersService()
   }
 
   public async create(req: RequestUser, res: express.Response, next: NextFunction): Promise<void> {
@@ -23,6 +26,17 @@ export class EventsSettingsController {
         eventDto
       );
 
+      if(eventCreated){
+        const userDto   = {
+          ...req.user,
+          flow : {
+            ...req.user.flow,
+            settings : true,
+            onGoing : true
+          }
+        }
+        this.userService.updateUser(new UserDto({...userDto} as UserDto))
+      } 
       res.send(eventCreated);
     } catch (error) {
       next(error);

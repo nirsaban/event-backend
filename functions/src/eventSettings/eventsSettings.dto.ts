@@ -29,6 +29,12 @@ export class EventsSettingsDto extends BaseDto<
   @Transform(({ value }) => parseInt(value))
   @IsNumberString()
   knightsTableSits: number;
+  
+  @Transform(({ value }) => parseInt(value))
+  @IsNumberString()
+  maxBudget: number;
+
+
 
   constructor(event: EventsSettingsDto) {
     super();
@@ -41,5 +47,7 @@ export class EventsSettingsDto extends BaseDto<
     this.reserve = event.reserve;
 
     this.knightsTableSits = event.knightsTableSits;
+  
+    this.maxBudget = event.maxBudget
   }
 }
