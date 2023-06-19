@@ -8,6 +8,10 @@ import { UnAuthorized, NotFound, BadRequest } from "../errors/general.error";
 import { isNullOrUndefined } from "../utils";
 import { RequestUser } from "../interfaces/requestUser.interface";
 
+/**
+ * Middleware for Firebase authentication. Verifies the user's token and sets the user object on the request.
+ * @class
+ */
 export class FBAuthMiddleware {
   private fbUser: DecodedIdToken;
   private usersService: UsersService;
@@ -17,7 +21,11 @@ export class FBAuthMiddleware {
     this.usersService = new UsersService();
   }
 
-  public async init(req: RequestUser, res: express.Response, next: NextFunction): Promise<any> {
+  public async init(
+    req: RequestUser,
+    res: express.Response,
+    next: NextFunction
+  ): Promise<any> {
     try {
       //No need to authenticate get token requests
       if (this.isTokenRoute(req)) {
@@ -32,13 +40,14 @@ export class FBAuthMiddleware {
         throw new UnAuthorized("unauthorized , user credential not valid");
       }
 
-      const userEntity: UserDto = await this.usersService.getUserByFBId(this.fbUser.uid);
+      const userEntity: UserDto = await this.usersService.getUserByFBId(
+        this.fbUser.uid
+      );
       console.log(userEntity);
       if (isNullOrUndefined(userEntity)) {
         this.userDto = new UserDto(UserDto.FBUserTLocalUser(this.fbUser));
       } else {
         this.userDto = new UserDto(userEntity);
-       
       }
 
       await this.userDto.validate(this.userDto);
@@ -50,7 +59,9 @@ export class FBAuthMiddleware {
       return next();
     } catch (error) {
       if (error instanceof BadRequest) {
-        return res.status(error.getCode()).send({ errorMessage: error.message });
+        return res
+          .status(error.getCode())
+          .send({ errorMessage: error.message });
       }
       res.status(401).send({
         status: "error",

@@ -1,5 +1,4 @@
 require("./config/fb.config");
-
 import { FBAuthMiddleware } from "./common/middlewares/fbAuth.middleware";
 import { handleErrors } from "./common/middlewares/errorHandler.middleware";
 import express, { Express, NextFunction, Request } from "express";
@@ -8,13 +7,15 @@ import cors from "cors";
 const fileMiddleware = require("express-multipart-file-parser");
 import { RouterApi } from "./routes";
 
+/**
+ * A class representing the Events API server.
+ */
 export class EventsApi {
   private app: Express;
 
   constructor() {
     this.app = express();
 
-    this.initFirebase();
     this.app.use(cors());
     this.app.use(fileMiddleware);
 
@@ -29,8 +30,6 @@ export class EventsApi {
       res.status(404).send("what???");
     });
   }
-
-  private initFirebase(): void {}
 
   private getApiPrefix(): string {
     const apiPrefix = "/api/v1";

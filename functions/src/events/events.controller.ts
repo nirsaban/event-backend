@@ -11,11 +11,10 @@ export interface MulterRequest extends RequestUser {
 }
 export class EventsController {
   private eventsService: EventsService;
-  private userService : UsersService
+  private userService: UsersService;
   constructor() {
-    this.userService = new UsersService()
+    this.userService = new UsersService();
     this.eventsService = new EventsService();
-    
   }
 
   public async create(
@@ -44,18 +43,17 @@ export class EventsController {
         file
       );
 
-      if(eventCreated){
-
-        const userDto   = {
+      if (eventCreated) {
+        const userDto = {
           ...req.user,
-          flow : {
+          flow: {
             ...req.user.flow,
-            createEvent : true,
-            planners : true,
-            confirmDetails : true
-          }
-        }
-        this.userService.updateUser(new UserDto({...userDto} as UserDto))
+            createEvent: true,
+            planners: true,
+            confirmDetails: true,
+          },
+        };
+        this.userService.updateUser(new UserDto({ ...userDto } as UserDto));
       }
       res.send(eventCreated);
     } catch (error) {

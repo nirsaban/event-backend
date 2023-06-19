@@ -2,7 +2,8 @@ const functions = require("firebase-functions");
 import { RuntimeOptions } from "firebase-functions/v1";
 import { EventsApi } from "./server";
 
-let _appInstance;
+let _appInstance: EventsApi;
+
 if (!_appInstance) {
   console.log("index- " + __filename);
   _appInstance = new EventsApi();

@@ -6,6 +6,11 @@ import { BaseAbstractRoute } from "../common/abstract/route.absrtact";
 import express from "express";
 import { UsersRouter } from "../users/users.router";
 
+/**
+ * RouterApi is a class that extends BaseAbstractRoute and is used to initialize the router
+ * for the application. It initializes middleware and routes for users and events. If a route
+ * is not found, it returns a 404 error.
+ */
 export class RouterApi extends BaseAbstractRoute {
   controller: any;
 
